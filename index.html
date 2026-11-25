@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Giáng Sinh An Lành</title>
+<style>
+:root{--text:#f5f7ff;--muted:#c3cbe6;--card:rgba(10,18,45,.62);--accent:#ff5a5f;--gold:#ffd54f;color-scheme:dark}
+*{box-sizing:border-box;margin:0}
+html,body{min-height:100%}
+body{font-family:"Segoe UI",system-ui,Arial,sans-serif;color:var(--text);background:#0b1b3a;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
+.bg{position:fixed;inset:0;z-index:-2;background:linear-gradient(rgba(4,9,28,.5),rgba(4,9,28,.74)),var(--bg-img,none) center/cover no-repeat,linear-gradient(#0b1b3a,#1d3c63 70%,#2b5a7a)}
+#snow{position:fixed;inset:0;z-index:4;pointer-events:none}
+main{position:relative;z-index:2;max-width:1040px;margin:0 auto;padding:70px 18px 50px}
+header{text-align:center;margin-bottom:34px}
+header small{letter-spacing:.3em;color:var(--gold);font-size:.8rem}
+h1{font-size:clamp(2.1rem,6.5vw,3.6rem);margin:8px 0;text-shadow:0 3px 18px rgba(0,0,0,.75)}
+header p{color:var(--muted);max-width:520px;margin:0 auto;line-height:1.6}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(6,1fr)}
+.card{grid-column:span 2;font:inherit;color:inherit;text-align:left;cursor:pointer;background:var(--card);border:1px solid rgba(255,255,255,.16);border-radius:18px;padding:22px;backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);transition:transform .2s,border-color .2s,box-shadow .2s;display:flex;flex-direction:column;gap:8px;min-height:170px}
+.card:nth-child(n+4){grid-column:span 3}
+.card:hover{transform:translateY(-5px);border-color:var(--gold);box-shadow:0 12px 30px rgba(0,0,0,.4)}
+.card i{font-style:normal;font-size:1.8rem;width:54px;height:54px;display:grid;place-items:center;border-radius:14px;background:rgba(255,255,255,.1)}
+.card b{font-size:1.1rem;color:#ffe1e2}
+.card span{color:var(--muted);font-size:.92rem;line-height:1.5;flex:1}
+.card em{font-style:normal;color:var(--gold);font-size:.88rem}
+footer{text-align:center;color:var(--muted);margin-top:34px;font-size:.85rem}
+@media(max-width:760px){.card,.card:nth-child(n+4){grid-column:span 6;min-height:0}}
+/* thông tin của tôi */
+#me{position:fixed;top:calc(env(safe-area-inset-top,0px) + 12px);left:12px;z-index:6}
+#meb{margin:0;background:rgba(10,18,45,.78);border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(6px)}
+#mel{margin-top:8px;display:flex;flex-direction:column;gap:6px;padding:10px;border-radius:14px;background:rgba(10,18,45,.88);border:1px solid rgba(255,255,255,.2)}
+#mel[hidden]{display:none}
+#mel a{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font-size:.92rem;padding:4px 8px 4px 4px;border-radius:999px}
+#mel a:hover{background:rgba(255,255,255,.14)}
+#mel svg{width:34px;height:34px}
+/* cửa sổ nội dung */
+#modal{position:fixed;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;padding:14px;background:rgba(2,6,20,.45);backdrop-filter:blur(2px)}
+#modal[hidden]{display:none}
+#panel{position:relative;width:min(780px,100%);max-height:90vh;overflow:auto;background:rgba(8,14,38,.92);border:1px solid rgba(255,255,255,.2);border-radius:18px;padding:24px 20px;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.x{position:absolute;top:10px;right:12px;width:34px;height:34px;padding:0;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#fff;font-size:1rem;cursor:pointer;margin:0}
+h2{font-size:1.4rem;margin-bottom:6px;padding-right:36px}
+.hint{color:var(--muted);font-size:.92rem;margin-bottom:12px;line-height:1.5}
+button{font:inherit;padding:9px 18px;border:0;border-radius:999px;cursor:pointer;background:var(--accent);color:#fff;margin:6px 6px 0 0}
+button.alt{background:rgba(255,255,255,.16)}
+input,select{font:inherit;width:100%;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff;margin:4px 0 10px}
+select option{color:#000}
+label{font-size:.9rem;color:var(--muted)}
+.form2{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+@media(max-width:480px){.form2{grid-template-columns:1fr}}
+.tools{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.tools button{margin:0;padding:5px;width:46px;height:46px;background:rgba(255,255,255,.1);border:2px solid transparent;border-radius:12px}
+.tools button svg{width:100%;height:100%}
+.tools button.on{border-color:var(--gold);background:rgba(255,213,79,.2)}
+.treebox{position:relative;width:min(100%,340px);aspect-ratio:320/440;margin:0 auto;cursor:crosshair;touch-action:manipulation;border-radius:16px;overflow:hidden;background:radial-gradient(ellipse at 50% 30%,#18365e,#07101f 75%)}
+.treebox>svg{width:100%;height:100%;display:block}
+.orn{position:absolute;transform:translate(-50%,-50%);pointer-events:none;animation:pop .25s;filter:drop-shadow(0 2px 2px rgba(0,0,0,.5))}
+.orn svg{width:36px;height:36px;display:block}
+@keyframes pop{from{transform:translate(-50%,-50%) scale(0)}to{transform:translate(-50%,-50%) scale(1)}}
+.res{display:grid;gap:10px;margin-top:12px}
+.res a,.item,.pl{display:flex;gap:12px;align-items:center;padding:12px;border-radius:12px;background:rgba(255,255,255,.08);color:#fff;text-decoration:none;font:inherit;text-align:left;width:100%;border:0;margin:0;cursor:pointer}
+.res a:hover,.pl:hover{background:rgba(255,255,255,.16)}
+.em{font-size:2rem;width:56px;height:56px;display:grid;place-items:center;border-radius:12px;background:rgba(255,255,255,.1);flex:none}
+.res small,.item small{display:block;color:var(--muted);margin-top:2px;line-height:1.4}
+.item{cursor:default}.item .lk a{color:var(--gold);margin-right:12px;font-size:.88rem}
+.box{padding:14px;border-radius:12px;background:rgba(255,255,255,.07);margin-top:12px;line-height:1.6;font-size:.95rem}
+.box ul{padding-left:20px;margin-top:6px}
+.box a{color:var(--gold)}
+.song{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:10px 12px;margin-bottom:8px;border-radius:12px;background:rgba(255,255,255,.08)}
+.song div{min-width:0}.song button{margin:0 0 0 6px;padding:7px 14px;white-space:nowrap}
+.song a{color:var(--gold);font-size:.85rem}
+.song small{color:var(--muted)}
+canvas#viz{width:100%;height:130px;border-radius:12px;background:rgba(0,0,0,.35);margin-bottom:10px}
+#lyr{min-height:70px;text-align:center;line-height:1.8;margin-bottom:12px;color:var(--muted)}
+#lyr span{display:block;transition:.2s}#lyr .on{color:#fff;font-size:1.1rem;font-weight:600;text-shadow:0 0 10px var(--accent)}
+.thiep{width:min(100%,420px);min-height:260px;margin:12px auto;border-radius:16px;display:flex;align-items:center;justify-content:center;text-align:center;padding:26px;cursor:pointer;background:linear-gradient(135deg,#b71c1c,#d32f2f);border:3px solid var(--gold);box-shadow:0 10px 30px rgba(0,0,0,.5);transition:transform .3s}
+.thiep:hover{transform:rotate(-1deg) scale(1.02)}
+.thiep.open{background:linear-gradient(135deg,#fff8e1,#ffe9b0);color:#4a1a1a;cursor:default;animation:pop2 .5s}
+.thiep.open:hover{transform:none}
+.thiep p{line-height:1.7;font-size:1.02rem;font-style:italic}
+@keyframes pop2{from{transform:rotateY(90deg)}to{transform:rotateY(0)}}
+#santa{position:fixed;top:14%;left:0;z-index:3;width:140px;pointer-events:none;opacity:0}
+#santa svg{width:100%;height:auto;display:block}
+#santa.fly{opacity:1;animation:fly 14s linear forwards,bob 1.6s ease-in-out infinite}
+@keyframes fly{from{left:-200px}to{left:100vw}}
+@keyframes bob{0%,100%{margin-top:0}50%{margin-top:-14px}}
+@media(prefers-reduced-motion:reduce){#santa{display:none}}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<canvas id="snow"></canvas>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<radialGradient id="shine" cx=".35" cy=".3" r=".7"><stop offset="0" stop-color="#fff" stop-opacity=".75"/><stop offset=".35" stop-color="#fff" stop-opacity=".1"/><stop offset="1" stop-color="#000" stop-opacity=".35"/></radialGradient>
+<linearGradient id="goldG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff2a8"/><stop offset=".5" stop-color="#f4b400"/><stop offset="1" stop-color="#b8860b"/></linearGradient>
+<radialGradient id="glow"><stop offset="0" stop-color="#ffe082" stop-opacity=".9"/><stop offset="1" stop-color="#ffb300" stop-opacity="0"/></radialGradient>
+<linearGradient id="ig" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#feda75"/><stop offset=".4" stop-color="#fa7e1e"/><stop offset=".7" stop-color="#d62976"/><stop offset="1" stop-color="#4f5bd5"/></linearGradient>
+</defs></svg>
+
+<div id="me"><button id="meb">👤 Thông tin của tôi</button>
+<div id="mel" hidden>
+<a href="https://www.facebook.com/hz.vo.2025" target="_blank" rel="noopener"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#1877f2"/><path d="M22 33V22h4l.6-4.5H22v-2.6c0-1.3.4-2.2 2.2-2.2h2.4V8.700c-.4 0-1.800-.2-3.500-.2-3.500 0-5.800 2.100-5.800 6v3H13V22h4.300v11z" fill="#fff"/></svg>Facebook</a>
+<a href="https://www.instagram.com/hzvo09/" target="_blank" rel="noopener"><svg viewBox="0 0 40 40"><rect width="40" height="40" rx="11" fill="url(#ig)"/><rect x="10" y="10" width="20" height="20" rx="6" fill="none" stroke="#fff" stroke-width="2.200"/><circle cx="20" cy="20" r="4.800" fill="none" stroke="#fff" stroke-width="2.200"/><circle cx="26.200" cy="13.800" r="1.400" fill="#fff"/></svg>Instagram</a>
+<a href="https://www.tiktok.com/@hanzoxyn" target="_blank" rel="noopener"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#000"/><g fill="none" stroke-width="3.200" stroke-linecap="round"><path id="tk" d="M22 10v14a4.500 4.500 0 1 1-4.500-4.500M22 10c.4 3 2.500 5 5.500 5.200" stroke="#25f4ee" transform="translate(-1.200,-1.200)"/><path d="M22 10v14a4.500 4.500 0 1 1-4.500-4.500M22 10c.4 3 2.500 5 5.500 5.200" stroke="#fe2c55" transform="translate(1.200,1.200)"/><path d="M22 10v14a4.500 4.500 0 1 1-4.500-4.500M22 10c.4 3 2.500 5 5.500 5.200" stroke="#fff"/></g></svg>TikTok</a>
+</div></div>
+
+<div id="santa" aria-hidden="true"><svg viewBox="0 0 220 90" xmlns="http://www.w3.org/2000/svg"><path d="M12 52H110" stroke="#d9b36a" stroke-width="1.5" fill="none"/><g fill="#8b5a2b"><ellipse cx="30" cy="48" rx="15" ry="8"/><rect x="20" y="52" width="3" height="14"/><rect x="36" y="52" width="3" height="14"/><circle cx="12" cy="40" r="6"/></g><path d="M10 35l-4-9m4 9l4-9M13 35l3-7" stroke="#6b4421" stroke-width="2" fill="none"/><circle cx="7" cy="41" r="2.5" fill="#e53935"/><g fill="#9c6a35"><ellipse cx="66" cy="48" rx="15" ry="8"/><rect x="56" y="52" width="3" height="14"/><rect x="72" y="52" width="3" height="14"/><circle cx="48" cy="40" r="6"/></g><path d="M46 35l-4-9m4 9l4-9M49 35l3-7" stroke="#6b4421" stroke-width="2" fill="none"/><circle cx="43" cy="41" r="2.5" fill="#e53935"/><path d="M100 50h70q14 0 14-10v10q0 12-14 12h-70z" fill="#c62828"/><path d="M96 72h92q8 0 8-8" stroke="#d9b36a" stroke-width="3" fill="none"/><circle cx="140" cy="36" r="10" fill="#c62828"/><circle cx="140" cy="40" r="7" fill="#ffd9b8"/><path d="M133 44q7 12 14 0z" fill="#fff"/><path d="M131 32q9-16 19 0z" fill="#c62828"/><circle cx="152" cy="22" r="3" fill="#fff"/><ellipse cx="168" cy="40" rx="10" ry="12" fill="#6d4c41"/></svg></div>
+
+<main>
+<header><small>MERRY CHRISTMAS</small><h1>🎄 Giáng Sinh An Lành 🎄</h1><p>Trang trí cây thông, tìm nơi đón lễ, nghe nhạc Noel, chọn quà và gửi lời chúc đến người thân yêu.</p></header>
+<section class="grid">
+<button class="card" data-v="tree"><i>🎄</i><b>Cùng trang trí cây thông Noel</b><span>Một cây thông lớn đang chờ bạn treo bóng, sao, đèn và quà.</span><em>Bắt đầu trang trí →</em></button>
+<button class="card" data-v="map"><i>⛪</i><b>Tìm giáo xứ gần bạn</b><span>Nhập địa chỉ để tìm giáo xứ, xem thời tiết và nhắc nhở nên mang gì.</span><em>Tìm kiếm →</em></button>
+<button class="card" data-v="music"><i>🎶</i><b>Âm nhạc Giáng Sinh</b><span>Nghe giai điệu và lời bài hát cùng sóng âm nhiều màu sắc.</span><em>Nghe nhạc →</em></button>
+<button class="card" data-v="gift"><i>🎁</i><b>Quà tặng ý nghĩa</b><span>Điền thông tin người nhận để nhận gợi ý món quà phù hợp kèm link mua.</span><em>Gợi ý quà →</em></button>
+<button class="card" data-v="wish"><i>💌</i><b>Thiệp lời chúc</b><span>Mở một tấm thiệp để đọc lời chúc ý nghĩa dành cho bạn.</span><em>Mở thiệp →</em></button>
+</section>
+<footer>Merry Christmas &amp; Happy New Year!</footer>
+</main>
+<div id="modal" hidden><div id="panel"></div></div>
+
+<script>
+const BG_URL="https://hobiverse.com.vn/cdn/shop/articles/Jinx_9bca3e2a-29fb-4f36-81d8-e870f51800b0.jpg?v=1761030989";
+if(BG_URL)document.documentElement.style.setProperty('--bg-img','url("'+BG_URL+'")');
+const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const gm=q=>'https://www.google.com/maps/search/'+encodeURIComponent(q);
+
+// Thông tin của tôi
+$('#meb').onclick=()=>{$('#mel').hidden=!$('#mel').hidden};
+
+// Tuyết rơi
+const cv=$('#snow'),cx=cv.getContext('2d');let W,H;
+function rs(){W=cv.width=innerWidth;H=cv.height=innerHeight}addEventListener('resize',rs);rs();
+const fl=Array.from({length:Math.min(110,innerWidth/10|0)},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*2.2+.8,s:Math.random()+.4,d:Math.random()*6}));
+(function dr(){cx.clearRect(0,0,W,H);cx.fillStyle='rgba(255,255,255,.85)';for(const f of fl){f.y+=f.s;f.d+=.01;f.x+=Math.sin(f.d)*.5;if(f.y>H+5){f.y=-5;f.x=Math.random()*W}cx.beginPath();cx.arc(f.x,f.y,f.r,0,6.283);cx.fill()}requestAnimationFrame(dr)})();
+
+// Ông già Noel sau 5 giây
+const sa=$('#santa');function fly(){sa.classList.remove('fly');void sa.offsetWidth;sa.classList.add('fly')}
+setTimeout(()=>{fly();setInterval(fly,30000)},5000);
+
+// Cửa sổ nội dung
+const modal=$('#modal'),panel=$('#panel');let cleanup=null;
+function openV(v){panel.innerHTML='<button class="x" aria-label="Đóng">✕</button><div id="body"></div>';panel.querySelector('.x').onclick=closeV;modal.hidden=false;views[v]($('#body'))}
+function closeV(){if(cleanup){cleanup();cleanup=null}modal.hidden=true}
+modal.addEventListener('click',e=>{if(e.target===modal)closeV()});
+addEventListener('keydown',e=>{if(e.key==='Escape'&&!modal.hidden)closeV()});
+document.querySelectorAll('.card').forEach(c=>c.onclick=()=>openV(c.dataset.v));
+
+// Hỏi Claude (chỉ hoạt động khi trang được đăng tải)
+async function askJSON(p){if(!window.claude)throw 0;const s=await claude.use('sample');if(!s)throw 0;return await s.json(p)}
+
+// Cây thông
+function treeSVG(){let s=11;const R=()=>(s=s*16807%2147483647)/2147483647,G=['#0b4a22','#14692f','#1f8a41','#2aa356','#0e5a28'];
+ let o='<defs><linearGradient id="tg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1f7a3a"/><stop offset="1" stop-color="#0c3d1c"/></linearGradient><linearGradient id="tk2" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#4e3320"/><stop offset=".5" stop-color="#8a5b36"/><stop offset="1" stop-color="#4e3320"/></linearGradient><radialGradient id="mound"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#b9cde8"/></radialGradient></defs>';
+ o+='<ellipse cx="160" cy="426" rx="130" ry="14" fill="#000" opacity=".35"/><rect x="143" y="378" width="34" height="46" fill="url(#tk2)"/>';
+ for(let i=6;i>=0;i--){const ay=26+i*46,by=ay+88,hw=32+i*20,m=3+i,st=2*hw/m;
+  let d=`M160 ${ay}L${160-hw} ${by}`;for(let k=0;k<m;k++)d+=`Q${160-hw+(k+.5)*st} ${by+18} ${160-hw+(k+1)*st} ${by}`;d+='Z';
+  o+=`<path d="${d}" fill="url(#tg)" stroke="#07301a" stroke-width="1.5"/>`;
+  for(let n=0;n<110;n++){const y=ay+10+R()*(by-ay-8),lim=hw*(y-ay)/(by-ay),x=160+(R()*2-1)*lim*.95,dx=(x-160)/(lim||1)*7,len=6+R()*7;
+   o+=`<path d="M${x.toFixed(1)} ${y.toFixed(1)}l${dx.toFixed(1)} ${len.toFixed(1)}" stroke="${G[R()*5|0]}" stroke-width="1.6" stroke-linecap="round" opacity=".85"/>`}
+  for(let k=0;k<m;k++){const x=160-hw+(k+.5)*st;o+=`<ellipse cx="${x.toFixed(1)}" cy="${by+9}" rx="${(st*.28).toFixed(1)}" ry="3" fill="#fff" opacity=".8"/>`}
+  o+=`<path d="M160 ${ay}L${160-hw*.55} ${ay+(by-ay)*.55}" stroke="#fff" stroke-width="2" opacity=".25" stroke-linecap="round"/>`}
+ return o+'<ellipse cx="160" cy="424" rx="105" ry="11" fill="url(#mound)"/>'}
+const O={
+ r:c=>`<svg viewBox="0 0 40 40"><rect x="17" y="3" width="6" height="7" rx="1.500" fill="url(#goldG)"/><circle cx="20" cy="24" r="14" fill="${c}"/><circle cx="20" cy="24" r="14" fill="url(#shine)"/></svg>`,
+ star:'<svg viewBox="0 0 40 40"><polygon points="20,2 25,14.500 38,15.500 28,24 31.500,37 20,30 8.500,37 12,24 2,15.500 15,14.500" fill="url(#goldG)" stroke="#a87708"/><polygon points="20,2 25,14.500 20,20" fill="#fff" opacity=".35"/></svg>',
+ gift:'<svg viewBox="0 0 40 40"><rect x="5" y="16" width="30" height="20" rx="2" fill="#c62839"/><rect x="5" y="16" width="30" height="20" rx="2" fill="url(#shine)" opacity=".5"/><rect x="18" y="16" width="4" height="20" fill="url(#goldG)"/><rect x="5" y="23" width="30" height="4" fill="url(#goldG)"/><path d="M20 16c-9-9-13 1-4 1zM20 16c9-9 13 1 4 1z" fill="none" stroke="#f4b400" stroke-width="2.500"/></svg>',
+ bell:'<svg viewBox="0 0 40 40"><path d="M20 4c-6 0-9 5-9 11 0 6-3 9-5 12h28c-2-3-5-6-5-12 0-6-3-11-9-11z" fill="url(#goldG)" stroke="#a87708"/><circle cx="20" cy="31" r="3.500" fill="#a87708"/><path d="M15 11c-2 2-2 5-2 7" stroke="#fff" stroke-width="2" fill="none" opacity=".6" stroke-linecap="round"/></svg>',
+ candy:'<svg viewBox="0 0 40 40"><g fill="none" stroke-linecap="round"><path d="M12 36V14a8 8 0 0 1 16 0" stroke="#fff" stroke-width="6"/><path d="M12 36V14a8 8 0 0 1 16 0" stroke="#d62839" stroke-width="6" stroke-dasharray="4 4.500"/></g></svg>',
+ snow:'<svg viewBox="0 0 40 40"><g stroke="#e8f4ff" stroke-width="2.500" stroke-linecap="round"><path d="M20 4v32M5 12l30 16M5 28l30-16"/><path d="M16 7l4 3 4-3M16 33l4-3 4 3" fill="none" stroke-width="1.800"/></g><circle cx="20" cy="20" r="3" fill="#fff"/></svg>',
+ light:'<svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="19" fill="url(#glow)"/><circle cx="20" cy="20" r="6" fill="#fff3b0"/></svg>',
+ sock:'<svg viewBox="0 0 40 40"><path d="M11 5h15v16l8 8c2 3-1 7-5 6l-9-5c-5-3-9-6-9-10z" fill="#c62839"/><path d="M11 5h15v16l8 8" fill="url(#shine)" opacity=".4"/><rect x="10" y="4" width="17" height="7" rx="3" fill="#fff"/></svg>',
+ bow:'<svg viewBox="0 0 40 40"><path d="M20 18C9 6 3 16 9 24c4 4 9-1 11-6zM20 18c11-12 17-2 11 6-4 4-9-1-11-6z" fill="#d62839"/><path d="M20 18C9 6 3 16 9 24" fill="url(#shine)" opacity=".35"/><circle cx="20" cy="19" r="4.500" fill="#9b1a28"/><path d="M18 23l-4 13M22 23l4 13" stroke="#d62839" stroke-width="3.500" stroke-linecap="round"/></svg>',
+ ginger:'<svg viewBox="0 0 40 40"><g fill="#b9743c"><circle cx="20" cy="9" r="6"/><rect x="12" y="15" width="16" height="12" rx="5"/><rect x="3" y="15" width="12" height="5" rx="2.500"/><rect x="25" y="15" width="12" height="5" rx="2.500"/><rect x="12" y="25" width="6" height="12" rx="3"/><rect x="22" y="25" width="6" height="12" rx="3"/></g><circle cx="18" cy="8" r="1" fill="#fff"/><circle cx="22" cy="8" r="1" fill="#fff"/><path d="M17 11q3 2 6 0" stroke="#fff" fill="none"/><circle cx="20" cy="20" r="1.600" fill="#d62839"/><circle cx="20" cy="25" r="1.600" fill="#d62839"/></svg>'};
+const ITEMS=[...['#d62839','#f4b400','#2a6fdb','#8e44ad','#1abc9c','#cfd8dc'].map(c=>O.r(c)),O.star,O.gift,O.bell,O.candy,O.snow,O.light,O.sock,O.bow,O.ginger];
+
+const views={
+tree(b){
+ b.innerHTML=`<h2>🎄 Cùng trang trí cây thông Noel</h2><p class="hint">Chọn một món đồ, rồi chạm vào cây để treo. Hãy thử đặt ngôi sao lên đỉnh cây nhé!</p><div class="tools" id="tools"></div><div class="treebox" id="tree"><svg viewBox="0 0 320 440">${treeSVG()}</svg></div><div style="text-align:center"><button class="alt" id="undo">↩ Hoàn tác</button><button class="alt" id="clr">🗑 Xóa hết</button></div>`;
+ const tools=$('#tools'),tree=$('#tree');let sel=null;
+ ITEMS.forEach(h=>{const t=document.createElement('button');t.innerHTML=h;t.onclick=()=>{sel=h;tools.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===t))};tools.appendChild(t)});
+ tree.onclick=ev=>{if(!sel){$('.hint').textContent='👆 Hãy chọn một món đồ trước nhé!';return}const r=tree.getBoundingClientRect(),s=document.createElement('span');s.className='orn';s.innerHTML=sel;s.style.left=(ev.clientX-r.left)/r.width*100+'%';s.style.top=(ev.clientY-r.top)/r.height*100+'%';tree.appendChild(s)};
+ $('#undo').onclick=()=>{const o=tree.querySelectorAll('.orn');if(o.length)o[o.length-1].remove()};
+ $('#clr').onclick=()=>tree.querySelectorAll('.orn').forEach(o=>o.remove());
+},
+map(b){
+ b.innerHTML=`<h2>⛪ Tìm giáo xứ gần bạn</h2><p class="hint">Nhập địa chỉ hiện tại rồi nhấn tìm kiếm. Chọn một giáo xứ để xem nhắc nhở thời tiết và đồ cần mang.</p><label for="ad">Địa chỉ của bạn</label><input id="ad" placeholder="Ví dụ: Phố Châu, Hà Tĩnh"><button id="go">🔍 Tìm kiếm</button><div id="rs"></div>`;
+ let addr='';
+ const list=async()=>{addr=$('#ad').value.trim();if(!addr){$('#rs').innerHTML='<p class="hint" style="margin-top:10px">Vui lòng nhập địa chỉ trước nhé.</p>';return}
+  $('#rs').innerHTML=`<div class="res"><a href="${gm('giáo xứ gần '+addr)}" target="_blank" rel="noopener"><div class="em">🗺️</div><div>Xem tất cả giáo xứ gần "${esc(addr)}"<small>Mở kết quả đầy đủ trên Google Maps ↗</small></div></a></div><p class="hint" style="margin-top:12px" id="ld">⏳ Đang gợi ý các giáo xứ trong khu vực…</p><div class="res" id="pl"></div>`;
+  try{const r=await askJSON(`Liệt kê tối đa 6 giáo xứ hoặc nhà thờ Công giáo thật sự có, gần hoặc trong khu vực "${addr}" (ưu tiên Việt Nam). Chỉ liệt kê nơi bạn chắc chắn tồn tại. Trả về JSON: {"items":[{"name":"tên giáo xứ","area":"xã/phường, tỉnh/thành"}]}`);
+   const it=(r.items||[]).slice(0,6);if(!it.length)throw 0;
+   $('#ld').innerHTML='Gợi ý giáo xứ (do Claude tổng hợp, hãy kiểm tra lại trên Maps):';
+   $('#pl').innerHTML=it.map((x,i)=>`<button class="pl" data-i="${i}"><div class="em">⛪</div><div>${esc(x.name)}<small>${esc(x.area||'')} · Nhấn để xem thời tiết &amp; nhắc nhở</small></div></button>`).join('');
+   $('#pl').querySelectorAll('.pl').forEach(el=>el.onclick=()=>detail(it[+el.dataset.i]));
+  }catch(e){$('#ld').textContent='Chưa lấy được gợi ý tự động. Bạn hãy dùng liên kết Google Maps ở trên, hoặc nhập tên giáo xứ để xem nhắc nhở:';
+   $('#pl').innerHTML=`<input id="pn" placeholder="Tên giáo xứ"><button id="pg">Xem nhắc nhở</button>`;$('#pg').onclick=()=>{const n=$('#pn').value.trim();if(n)detail({name:n,area:addr})}}};
+ $('#go').onclick=list;$('#ad').onkeydown=e=>{if(e.key==='Enter')list()};
+ function detail(p){const where=p.area||addr,today=new Date().toLocaleDateString('vi-VN');
+  b.innerHTML=`<h2>⛪ ${esc(p.name)}</h2><p class="hint">${esc(where)}</p><button class="alt" id="bk">← Quay lại danh sách</button>
+  <div class="res"><a href="${gm(p.name+' '+where)}" target="_blank" rel="noopener"><div class="em">🗺️</div><div>Xem đường đi trên Google Maps ↗</div></a><a href="https://www.google.com/search?q=${encodeURIComponent('thời tiết '+where)}" target="_blank" rel="noopener"><div class="em">🌦️</div><div>Xem thời tiết trực tiếp tại đây ↗<small>Dự báo cập nhật theo thời gian thực từ Google</small></div></a></div>
+  <div class="box" id="sea">⏳ Đang chuẩn bị nhắc nhở theo mùa…</div>
+  <div class="box"><b>🌡️ Nhập thời tiết bạn vừa xem để nhận nhắc nhở chính xác</b>
+  <div class="form2" style="margin-top:8px"><div><label>Nhiệt độ (°C)</label><input id="tp" type="number" value="24"></div><div><label>Tình trạng</label><select id="cd"><option>Nhiều mây</option><option>Nắng</option><option>Mưa</option><option>Gió lớn</option><option>Sương mù</option></select></div></div><button id="tipb">Nhận nhắc nhở</button><div id="tips"></div></div>`;
+  $('#bk').onclick=()=>{views.map(b);$('#ad').value=addr;list()};
+  $('#tipb').onclick=()=>{const t=+$('#tp').value,c=$('#cd').value,L=[];
+   L.push(t<=15?'Trời lạnh: mặc áo khoác dày, quàng khăn, đội mũ len, mang găng tay.':t<=22?'Se lạnh: mang áo khoác mỏng hoặc áo len, áo dài tay.':t<=29?'Dễ chịu: mặc đồ thoáng mát, mang thêm áo khoác mỏng cho buổi tối.':'Nóng: mặc đồ thoáng, mang quạt nhỏ, nước uống và khăn lau mồ hôi.');
+   const m={'Mưa':'Có mưa: mang áo mưa hoặc ô, giày chống trượt, túi chống nước cho điện thoại.','Nắng':'Có nắng: mang mũ, kính râm, kem chống nắng.','Gió lớn':'Gió lớn: mặc áo chắn gió, buộc gọn tóc, cẩn thận với ô.','Sương mù':'Sương mù: đi chậm, bật đèn xe, mặc áo màu sáng để dễ thấy.','Nhiều mây':'Nhiều mây: mang ô gấp nhỏ phòng khi mưa bất chợt.'};L.push(m[c]);
+   L.push('Mang theo điện thoại đã sạc đầy, ít tiền mặt và giấy tờ cần thiết.','Dịp Noel nhà thờ rất đông: nên đến sớm, ăn mặc lịch sự (kín vai và gối) và giữ yên lặng trong lễ.');
+   $('#tips').innerHTML='<ul>'+L.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>'};
+  askJSON(`Hôm nay là ${today}. Với địa điểm "${p.name}", ${where}: tóm tắt ngắn gọn thời tiết ĐIỂN HÌNH vào thời điểm này trong năm ở nơi đó (không phải dự báo trực tiếp), rồi nhắc người đi lễ nên mặc gì và mang gì. Trả về JSON: {"summary":"...","tips":["...","..."]} tiếng Việt, tối đa 5 ý.`).then(r=>{
+   $('#sea').innerHTML='<b>📅 Thời tiết điển hình theo mùa</b> <small style="color:var(--muted)">(không phải dự báo trực tiếp)</small><p style="margin-top:6px">'+esc(r.summary||'')+'</p><ul>'+(r.tips||[]).map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>'}).catch(()=>{$('#sea').innerHTML='Hãy mở liên kết thời tiết ở trên, rồi nhập nhiệt độ và tình trạng bên dưới để nhận nhắc nhở.'})}
+},
+music(b){
+ const S=[
+ {t:'Jingle Bells',b:.34,n:'E4:1 E4:1 E4:2 E4:1 E4:1 E4:2 E4:1 G4:1 C4:1.5 D4:.5 E4:4 F4:1 F4:1 F4:1.5 F4:.5 F4:1 E4:1 E4:1 E4:.5 E4:.5 E4:1 D4:1 D4:1 E4:1 D4:2 G4:2',
+  l:['Jingle bells, jingle bells, jingle all the way','Oh what fun it is to ride in a one horse open sleigh','Jingle bells, jingle bells, jingle all the way','Oh what fun it is to ride in a one horse open sleigh']},
+ {t:'Silent Night',b:.38,n:'G4:1.5 A4:.5 G4:1 E4:3 G4:1.5 A4:.5 G4:1 E4:3 D5:2 D5:1 B4:3 C5:2 C5:1 G4:3 A4:2 A4:1 C5:1.5 B4:.5 A4:1 G4:1.5 A4:.5 G4:1 E4:3 A4:2 A4:1 C5:1.5 B4:.5 A4:1 G4:1.5 A4:.5 G4:1 E4:3 D5:2 D5:1 F5:1.5 D5:.5 B4:1 C5:3 E5:3 C5:1 G4:1 E4:1 G4:1.5 F4:.5 D4:1 C4:3',
+  l:['Silent night, holy night','All is calm, all is bright','Round yon virgin mother and child','Holy infant so tender and mild','Sleep in heavenly peace','Sleep in heavenly peace']},
+ {t:'We Wish You a Merry Christmas',b:.36,n:'D4:1 G4:1 G4:.5 A4:.5 G4:.5 F#4:.5 E4:1 E4:1 E4:1 A4:1 A4:.5 B4:.5 A4:.5 G4:.5 F#4:1 D4:1 D4:1 B4:1 B4:.5 C5:.5 B4:.5 A4:.5 G4:1 E4:1 D4:.5 D4:.5 E4:1 A4:1 F#4:1 G4:2',
+  l:['We wish you a merry Christmas','We wish you a merry Christmas','We wish you a merry Christmas and a happy new year','Good tidings we bring to you and your kin','We wish you a merry Christmas and a happy new year']}];
+ const Y=[['Last Christmas','Wham!'],['All I Want for Christmas Is You','Mariah Carey'],['Rockin’ Around the Christmas Tree','Brenda Lee'],['Santa Tell Me','Ariana Grande']];
+ b.innerHTML=`<h2>🎶 Nhạc Giáng Sinh</h2><p class="hint">Nhấn ▶ để nghe giai điệu kèm giọng hát đọc lời bài hát. Sóng âm bên dưới chỉ thể hiện giai điệu.</p><canvas id="viz" width="640" height="130"></canvas><div id="lyr"></div><div class="song"><div>🎵 Playlist của bạn <small id="pt"></small></div><div><button id="pp">▶ Phát</button><button class="alt" id="pn" title="Phần kế tiếp">⏭</button></div></div><div id="sl"></div><p class="hint" style="margin-top:14px">Bản gốc các bài hát nổi tiếng khác (có giọng ca sĩ):</p><div id="yl"></div>`;
+ $('#yl').innerHTML=Y.map(y=>`<div class="song"><div>${esc(y[0])} <small>– ${esc(y[1])}</small></div><a href="https://www.youtube.com/results?search_query=${encodeURIComponent(y[0]+' '+y[1])}" target="_blank" rel="noopener">▶ Nghe trên YouTube ↗</a></div>`).join('');
+ let ac,an,oscs=[],cur=-1,tm,raf;
+ const NP=5,au=new Audio();let pi=0,pa=false,sn=false;
+ const setP=()=>{au.src='music/part'+(pi+1)+'.mp3';$('#pt').textContent='– Phần '+(pi+1)+'/'+NP};setP();
+ $('#pp').onclick=async()=>{if(pa){au.pause();return}stop();ac=ac||new(window.AudioContext||window.webkitAudioContext)();if(!an){an=ac.createAnalyser();an.fftSize=256;an.connect(ac.destination)}if(!sn){ac.createMediaElementSource(au).connect(an);sn=true}ac.resume();try{await au.play()}catch(e){$('#pt').textContent='– Không tìm thấy file nhạc (cần thư mục music/ cùng trang)'}};
+ au.onplay=()=>{pa=true;$('#pp').textContent='⏸ Tạm dừng'};au.onpause=()=>{pa=false;$('#pp').textContent='▶ Phát'};
+ au.onended=()=>{pi=(pi+1)%NP;setP();au.play()};
+ $('#pn').onclick=()=>{pi=(pi+1)%NP;setP();if(pa)au.play()};
+ const fq=n=>{const m=/([A-G])(#?)(\d)/.exec(n),s={C:0,D:2,E:4,F:5,G:7,A:9,B:11}[m[1]]+(m[2]?1:0);return 440*Math.pow(2,(12*(+m[3]+1)+s-69)/12)};
+ const list=()=>{$('#sl').innerHTML=S.map((s,i)=>`<div class="song"><div>${s.t} <small>– Truyền thống</small></div><button data-i="${i}">${cur===i?'⏹ Dừng':'▶ Nghe'}</button></div>`).join('');$('#sl').querySelectorAll('button').forEach(x=>x.onclick=()=>{const i=+x.dataset.i;cur===i?stop():play(i)})};
+ const hl=k=>$('#lyr').querySelectorAll('span').forEach((s,j)=>s.classList.toggle('on',j===k));
+ function stop(){clearTimeout(tm);oscs.forEach(o=>{try{o.stop()}catch(e){}});oscs=[];cur=-1;try{speechSynthesis.cancel()}catch(e){}list();hl(-1)}
+ function play(i){stop();au.pause();ac=ac||new(window.AudioContext||window.webkitAudioContext)();if(!an){an=ac.createAnalyser();an.fftSize=256;an.connect(ac.destination)}ac.resume();
+  const sp='speechSynthesis' in window,reps=sp?5:1;let t=ac.currentTime+.05;
+  for(let r=0;r<reps;r++)S[i].n.split(' ').forEach(s=>{const p=s.split(':'),L=p[1]*S[i].b,o=ac.createOscillator(),g=ac.createGain();o.type='triangle';o.frequency.value=fq(p[0]);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.3,t+.02);g.gain.exponentialRampToValueAtTime(.001,t+L*.95);o.connect(g);g.connect(an);o.start(t);o.stop(t+L);oscs.push(o);t+=L});
+  cur=i;list();$('#lyr').innerHTML=S[i].l.map(x=>'<span>'+esc(x)+'</span>').join('');
+  if(sp){const n=S[i].l.length;S[i].l.forEach((line,k)=>{const u=new SpeechSynthesisUtterance(line);u.lang='en-US';u.rate=.8;u.pitch=1.2;u.onstart=()=>hl(k);if(k===n-1)u.onend=()=>{if(cur===i)stop()};speechSynthesis.speak(u)})}
+  else tm=setTimeout(stop,(t-ac.currentTime)*1000+100)}
+ const c=$('#viz'),g=c.getContext('2d'),data=new Uint8Array(128);
+ (function loop(ts){g.clearRect(0,0,c.width,c.height);if(an)an.getByteFrequencyData(data);const N=48,w=c.width/N;
+  for(let i=0;i<N;i++){const v=(cur>=0||pa)&&an?data[i+1]/255:0,h=Math.max(5,(v*1.5+.04+Math.sin(ts/400+i)*.02)*c.height*.9);g.fillStyle=`hsl(${(i*8+ts/20)%360},95%,60%)`;g.shadowColor=g.fillStyle;g.shadowBlur=12;g.fillRect(i*w+2,(c.height-h)/2,w-4,h)}
+  raf=requestAnimationFrame(loop)})(0);
+ list();cleanup=()=>{stop();au.pause();cancelAnimationFrame(raf)};
+},
+gift(b){
+ const o=a=>a.map(x=>`<option>${x}</option>`).join('');
+ b.innerHTML=`<h2>🎁 Quà tặng ý nghĩa</h2><p class="hint">Cho mình biết đôi điều về người bạn muốn tặng quà nhé.</p>
+ <div class="form2"><div><label>Giới tính</label><select id="g">${o(['Nam','Nữ'])}</select></div><div><label>Tuổi</label><input id="age" type="number" min="1" max="100" value="25"></div>
+ <div><label>Đam mê nghệ thuật / sở thích</label><select id="h">${o(['Hội họa','Âm nhạc','Đọc sách','Thể thao','Nấu ăn','Công nghệ - Game','Nhiếp ảnh','Thủ công'])}</select></div><div><label>Tính cách</label><select id="p">${o(['Hướng nội','Năng động','Lãng mạn','Thực tế'])}</select></div></div>
+ <button id="sg">✨ Gợi ý quà</button><div class="res" id="rg"></div>`;
+ const H={'Hội họa':[['🎨','Bộ màu nước / acrylic cao cấp','bộ màu nước cao cấp'],['🖼️','Giá vẽ và canvas','giá vẽ canvas'],['🖌️','Bộ cọ vẽ chuyên nghiệp','bộ cọ vẽ']],
+ 'Âm nhạc':[['🎧','Tai nghe chất lượng cao','tai nghe bluetooth'],['🎸','Đàn Ukulele','đàn ukulele'],['🎼','Hộp nhạc cổ điển','hộp nhạc']],
+ 'Đọc sách':[['📚','Sách bản đặc biệt','sách hay nên đọc'],['💡','Đèn đọc sách kẹp','đèn đọc sách'],['📖','Máy đọc sách','máy đọc sách ebook']],
+ 'Thể thao':[['👟','Giày thể thao','giày thể thao'],['⌚','Đồng hồ thông minh','smartwatch'],['🧘','Thảm tập yoga','thảm yoga']],
+ 'Nấu ăn':[['🍳','Bộ dụng cụ làm bánh','dụng cụ làm bánh'],['🔪','Bộ dao nhà bếp','bộ dao bếp'],['🍪','Khuôn bánh quy Noel','khuôn bánh quy noel']],
+ 'Công nghệ - Game':[['🎮','Tay cầm chơi game','tay cầm chơi game'],['⌨️','Bàn phím cơ','bàn phím cơ'],['🖱️','Chuột không dây','chuột không dây']],
+ 'Nhiếp ảnh':[['📷','Máy ảnh lấy liền Instax','máy ảnh instax'],['🖼️','Khung ảnh gỗ','khung ảnh gỗ'],['🔦','Đèn LED chụp ảnh','đèn led chụp ảnh']],
+ 'Thủ công':[['🧶','Bộ len đan móc','len đan móc'],['🕯️','Bộ DIY làm nến thơm','làm nến thơm diy'],['🧵','Bộ thêu tay','bộ thêu tay']]};
+ const P={'Hướng nội':['🕯️','Nến thơm thư giãn','nến thơm'],'Năng động':['🎒','Balo du lịch','balo du lịch'],'Lãng mạn':['🌹','Hoa sáp & hộp quà handmade','hoa sáp hộp quà'],'Thực tế':['🧣','Khăn len ấm','khăn len']};
+ $('#sg').onclick=()=>{const g=$('#g').value,a=+$('#age').value||0,h=$('#h').value,p=$('#p').value;let L=[...H[h],P[p]];
+  if(a<13)L.unshift(['🧸','Gấu bông / bộ Lego','lego']);else if(a>=50)L.push(['🍵','Bộ ấm trà','bộ ấm trà']);
+  L.push(g==='Nữ'?['🧴','Set quà chăm sóc da','set quà tặng nữ']:['🧴','Set quà chăm sóc nam','set quà tặng nam']);
+  $('#rg').innerHTML=L.slice(0,6).map(x=>`<div class="item"><div class="em">${x[0]}</div><div><b>${x[1]}</b><small>Hợp với đam mê ${h.toLowerCase()} và tính cách ${p.toLowerCase()}.</small><div class="lk"><a href="https://shopee.vn/search?keyword=${encodeURIComponent(x[2])}" target="_blank" rel="noopener">Mua trên Shopee ↗</a><a href="https://www.google.com/search?tbm=shop&q=${encodeURIComponent(x[2])}" target="_blank" rel="noopener">Xem giá ↗</a></div></div></div>`).join('')};
+},
+wish(b){
+ const W=["Chúc bạn một mùa Giáng Sinh thật ấm áp. Mong rằng mọi lo toan của năm cũ sẽ tan đi như tuyết đầu đông, nhường chỗ cho bình an, sức khỏe và những khoảnh khắc sum vầy bên người thương yêu.",
+ "Giáng Sinh là lúc để nhìn lại những điều giản dị mà quý giá. Chúc bạn luôn có người để sẻ chia, có nơi để trở về và có thật nhiều niềm tin để bước tiếp vào năm mới đầy hy vọng.",
+ "Nguyện cho ánh đèn Noel soi sáng mọi ước mơ của bạn. Chúc bạn dũng cảm theo đuổi điều mình yêu thích, luôn được yêu thương và mỗi ngày trôi qua đều là một món quà đáng nhớ.",
+ "Cảm ơn bạn vì đã là một phần của những ngày tháng đẹp. Chúc bạn Giáng Sinh này trọn vẹn tiếng cười, ấm áp tình thân và một năm mới bình an, thành công, hạnh phúc ngập tràn.",
+ "Chúc cho trái tim bạn luôn nhẹ nhàng như bông tuyết và ấm áp như tách cacao đêm đông. Mong bạn gặp thật nhiều điều tử tế, và chính bạn cũng luôn là điều tử tế của người khác."];
+ let last=-1;
+ const draw=()=>{b.innerHTML=`<h2>💌 Thiệp chúc mừng</h2><p class="hint">Chạm vào tấm thiệp để mở ra lời chúc dành cho bạn.</p><div class="thiep" id="tp"><div><div style="font-size:3.2rem">🎄</div><div style="font-size:1.2rem">Gửi đến bạn<br><small>Chạm để mở thiệp</small></div></div></div><div style="text-align:center"><button class="alt" id="nx" style="display:none">💌 Thiệp khác</button></div>`;
+  $('#tp').onclick=function(){if(this.classList.contains('open'))return;let i;do{i=Math.random()*W.length|0}while(i===last);last=i;this.classList.add('open');this.innerHTML='<p>'+W[i]+'<br><br>🎅 Merry Christmas!</p>';$('#nx').style.display='inline-block'};
+  $('#nx').onclick=draw};
+ draw();
+}};
+</script>
+</body>
+</html>
